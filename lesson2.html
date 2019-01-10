@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+  <div id="elem" draggable="true">
+    asdasd
+  </div>
+
+<style>
+  #elem {
+    width: 100px;
+    height: 100px;
+    border: 1px solid red;
+
+    /* у передвигаемого элемента всегда должен быть position: absolute */
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+</style>
+
+<script>
+    let elem = document.querySelector('#elem');
+    let parent = document.querySelector('#parent');
+
+    let offsetX;
+    let offsetY;
+
+    elem.addEventListener('dragstart', function (event) {
+        this.offsetX = event.offsetX;
+        this.offsetY = event.offsetY;
+    });
+
+
+    elem.addEventListener('dragend', function (event) {
+        // px надо добавлять, т.к. там пустые строки
+        elem.style.top = event.pageY - this.offsetY + 'px';
+        elem.style.left = event.pageX - this.offsetX + 'px';
+    });
+</script>
+
+<!--
+dragstart
+drag
+dragend
+
+dragenter
+dragleave
+dragover
+drop
+-->
+
+
+</body>
+</html>

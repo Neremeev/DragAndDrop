@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<div id="panel">
+  <div class="elem" draggable="true">
+    111
+  </div>
+  <div class="elem" draggable="true">
+    222
+  </div>
+  <div class="elem" draggable="true">
+    333
+  </div>
+  <div class="elem" draggable="true">
+    444
+  </div>
+</div>
+<div id="parent"></div>
+
+<style>
+
+  #panel {
+    width: 200px;
+    height: 200px;
+    border: 1px solid green;
+
+    display: flex;
+    align-items: center;
+  }
+
+  .elem {
+    width: 50px;
+    height: 50px;
+    border: 1px solid red;
+    margin-left: 10px;
+  }
+
+  #parent {
+    margin-top: 100px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+  }
+</style>
+
+<script>
+    let elems = document.querySelectorAll('.elem');
+    let parent = document.querySelector('#parent');
+
+    let image = new Image();
+    image.src = 'image.jpg';
+
+    // пробегаемя по всем елементам и записываем в куррент захваченный
+    elems.forEach(function (elem, index) {
+        elem.addEventListener('dragstart', function (event) {
+            event.dataTransfer.setData('text', index);
+
+            //делаем картинку при перетягивании
+            event.dataTransfer.setDragImage(image, event.offsetX, event.offsetY);
+        });
+    });
+
+
+    parent.addEventListener('dragover', function (event) {
+        event.preventDefault();
+    });
+    // здесь нет способа определить элемент, который мы перетянули, поэтому сохраняем в куррент
+    parent.addEventListener('drop', function (event) {
+        console.log(event.dataTransfer.getData('text'));
+        this.appendChild(elems[event.dataTransfer.getData('text')]);
+    });
+</script>
+</body>
+</html>
